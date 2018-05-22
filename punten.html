@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/app.css">
+    <title>RSW 2018</title>
+  </head>
+  
+  <body>
+    <!-- Main -->
+    <main role="main" class="container" data-bind="visible: false">
+      <h1 class="text-center">Gegevens worde geladen.</h1>
+      <small>Wanneer de server offline is duurt dit heel lang.</small>
+    </main>
+    <main role="main" class="container" style="display: none" data-bind="visible: true">
+      Min tijd: <input type="time" data-bind="date: minTijd" /><br />
+      Max tijd: <input type="time" data-bind="date: maxTijd" /><br />
+      Max punten:  <input type="number" data-bind="value: maxPunten" /><br />
+
+      Berekening: <pre>(max_punten / (maxTijd - minTijd)) * (maxTijd - <b>[tijd]</b>)</pre> 
+
+      <br />
+      
+      <table class="table table-striped table-responsive" data-bind="visible: !false">
+        <thead>
+          <tr>
+            <th>Nr</th>
+            <th>Naam</th>
+            <!-- ko foreach: $root.posten -->
+            <th data-bind="visible: type_post() != 'start'">Aankomst <span data-bind="text: naam"></span></th>
+            <th data-bind="visible: type_post() != 'stop'">Vertrokke <span data-bind="text: naam"></span></th>
+            <!-- /ko -->
+            <th>Totaal Posten</th>
+            <th>Totaal Lopen</th>
+            <th>Punten</th>
+          </tr>
+        </thead>
+        <tbody data-bind="foreach: teamsGelope">
+          <tr>
+            <td data-bind="text: nummer"></td>
+            <td data-bind="text: naam"></td>
+
+            <!-- ko foreach: route -->
+            <td data-bind="text: naam"></td>
+            <td data-bind="visible: type_post() != 'start', date: aangekome, dateFormat: 'HH:mm'"></td>
+            <td data-bind="visible: type_post() != 'stop', date: vertrokke, dateFormat: 'HH:mm'"></td>
+            <!-- /ko -->
+
+            <td data-bind="text: postScore"></td>
+            <td data-bind="time: gelope"></td>
+            <td>
+              <span data-bind="text: postScore"></span> +
+              <span data-bind="text: tijdScore"></span> =
+              <span data-bind="text: postScore() + tijdScore()"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Laaste update: <b data-bind="timer: lastTime">server offline</b></span>
+      </div>
+    </footer>
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/js/moment-with-locales.min.js"></script>
+    <script src="/js/knockout-3.4.2.js"></script>
+    <script src="/js/knockout-bindings.js"></script>
+    <script src="/js/app.js?s2"></script>
+  </body>
+</html>
